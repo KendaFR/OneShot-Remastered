@@ -1,0 +1,9 @@
+name: 1v1-OneShot
+version: '${project.version}'
+main: fr.kenda.oneshot.Oneshot
+api-version: 1.18
+authors: [ Kenda ]
+description: Plugin de mini-jeux arcade
+commands:
+  game:
+    description: lol la commande

@@ -1,0 +1,6 @@
+prefix: "&c[1v1Oneshot]"
+
+messages:
+  already_start: "&cGame already started"
+  already_stopped: "&cGame already stopped"
+  status_change: "&aThe game status has change on %status%"
