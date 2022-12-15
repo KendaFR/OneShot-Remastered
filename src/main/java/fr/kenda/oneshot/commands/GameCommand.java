@@ -11,29 +11,36 @@ import org.bukkit.command.CommandSender;
 
 public class GameCommand implements CommandExecutor {
 
+    private static final String PREFIX = MessageUtils.getPrefix();
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
+        if (!sender.hasPermission(MessageUtils.getPermission("game.use"))) {
+            sender.sendMessage(MessageUtils.getMessage("no_permissions"));
+            return false;
+        }
         if (args.length != 1) {
             getHelp(sender);
+            return false;
         }
         switch (args[0]) {
-            case "start":
+            case "start" -> {
                 if (!GameStatusManager.isStatus(GameStatus.WAITING))
                     sender.sendMessage(MessageUtils.getMessage("already_started"));
                 else {
                     GameStatusManager.setStatus(GameStatus.STARTING);
-                    sender.sendMessage(MessageUtils.getMessage("status_change"), "%status%", GameStatusManager.getStatus());
+                    sender.sendMessage(MessageUtils.getMessage("status_change", "%status%", GameStatusManager.getStatus()));
                 }
-                break;
-            case "stop":
+            }
+            case "stop" -> {
                 if (!GameStatusManager.isStatus(GameStatus.GAME)) {
                     sender.sendMessage(MessageUtils.getMessage("already_stopped"));
                 } else {
                     GameStatusManager.setStatus(GameStatus.FINISH);
                     sender.sendMessage(MessageUtils.getMessage("status_change"), "%status%", GameStatusManager.getStatus());
                 }
-                break;
+            }
         }
         return false;
     }

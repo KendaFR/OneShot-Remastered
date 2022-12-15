@@ -12,10 +12,12 @@ public class CustomFile implements IFile {
 
     private static final Oneshot instance = Oneshot.getInstance();
     private static final File dataFolder = instance.getDataFolder();
+    private final String fileName;
 
     public CustomFile(String folder, String fileName) {
+        this.fileName = fileName;
         final String fileExtension = fileName + ".yml";
-        File file = null;
+        File file;
         if (!dataFolder.exists()) {
             dataFolder.mkdir();
         }
@@ -38,7 +40,11 @@ public class CustomFile implements IFile {
         FileManager.addFile(fileName, this);
     }
 
-    public File getFile(String folder, String fileName) {
+    public String getName() {
+        return fileName;
+    }
+
+    public static File getFile(String folder, String fileName) {
         if (folder != null)
             return new File(dataFolder + "/" + folder, fileName + ".yml");
         else
@@ -53,5 +59,10 @@ public class CustomFile implements IFile {
     @Override
     public YamlConfiguration getConfig() {
         return null;
+    }
+
+    @Override
+    public boolean reloadConfig() {
+        return false;
     }
 }

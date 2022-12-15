@@ -7,3 +7,5 @@ description: Plugin de mini-jeux arcade
 commands:
   game:
     description: lol la commande
+  gameconfig:
+    description: Permet de gérer la config du plugin

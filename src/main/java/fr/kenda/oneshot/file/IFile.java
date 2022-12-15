@@ -7,4 +7,5 @@ public interface IFile {
     public void addDefaults();
 
     public YamlConfiguration getConfig();
+    public boolean reloadConfig();
 }

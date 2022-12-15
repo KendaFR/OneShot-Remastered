@@ -5,10 +5,10 @@ import org.bukkit.ChatColor;
 
 public class MessageUtils {
 
-    private static Oneshot instance = Oneshot.getInstance();
+    private static final Oneshot instance = Oneshot.getInstance();
 
     public static String getPrefix() {
-        return ChatColor.translateAlternateColorCodes('&', instance.getConfig().getString("prefix"));
+        return ChatColor.translateAlternateColorCodes('&', instance.getConfig().getString("prefix")) + " ";
     }
 
     public static String getMessage(String path) {
@@ -24,5 +24,9 @@ public class MessageUtils {
             }
         }
         return getPrefix() + str;
+    }
+
+    public static String getPermission(String path) {
+        return instance.getConfig().getString("permissions." + path);
     }
 }

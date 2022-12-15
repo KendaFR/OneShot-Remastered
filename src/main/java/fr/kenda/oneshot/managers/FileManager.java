@@ -3,7 +3,9 @@ package fr.kenda.oneshot.managers;
 import fr.kenda.oneshot.file.File.CustomFile;
 import fr.kenda.oneshot.file.File.LocationsFile;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.checkerframework.checker.units.qual.A;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class FileManager implements IManager {
@@ -16,6 +18,13 @@ public class FileManager implements IManager {
 
     public static YamlConfiguration getConfig(String file) {
         return files.get(file).getConfig();
+    }
+    public static ArrayList<CustomFile> getFiles() {
+        return new ArrayList<>(files.values());
+    }
+
+    public static CustomFile getFile(String file) {
+        return files.get(file);
     }
 
     @Override
