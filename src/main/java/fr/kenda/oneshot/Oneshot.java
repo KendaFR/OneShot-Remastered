@@ -14,6 +14,13 @@ public final class Oneshot extends JavaPlugin {
         return instance;
     }
 
+
+    /*
+    On server start
+    save the configuration and set the status of game on WAITING
+    register all command
+    register all files custom
+     */
     @Override
     public void onEnable() {
         instance = this;

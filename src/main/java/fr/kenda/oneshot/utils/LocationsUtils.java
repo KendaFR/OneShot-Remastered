@@ -6,15 +6,31 @@ import org.bukkit.World;
 
 public class LocationsUtils {
 
+    /**
+     * Get the string format of location
+     * @param location Location
+     * @return Stirng
+     */
     public static String locationParse(final Location location) {
         return location.getWorld().getName() + "," +
                 (Math.round(location.getX()) + 0.5) + "," + Math.round(location.getY()) + "," + (Math.round(location.getZ()) + 0.5) + "," +
                 Math.round(location.getYaw()) + "," + Math.round(location.getPitch());
     }
 
+    /**
+     * Get the arguments of location string
+     * @param locationParsed String
+     * @return String[]
+     */
     public static String[] getArgumentsLocation(String locationParsed){
         return locationParsed.trim().split(",");
     }
+
+    /**
+     * Get the Location from String
+     * @param string String
+     * @return Location
+     */
     public static Location getParsedLocation(final String string) {
         final String[] args = string.trim().split(",");
         final World world = Bukkit.getWorld(args[0]);

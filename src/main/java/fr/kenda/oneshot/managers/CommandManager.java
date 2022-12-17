@@ -8,6 +8,9 @@ public class CommandManager implements IManager {
 
     private final Oneshot instance = Oneshot.getInstance();
 
+    /**
+     * Register all commands
+     */
     @Override
     public void register() {
         instance.getCommand("game").setExecutor(new GameCommand());

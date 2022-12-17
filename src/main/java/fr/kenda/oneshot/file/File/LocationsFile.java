@@ -18,10 +18,16 @@ public class LocationsFile extends CustomFile {
     private final String folder = EFiles.LOCATIONS.getFolder();
     private final String fileName = EFiles.LOCATIONS.getFileName();
 
+    /**
+     * Create locationsFile
+     */
     public LocationsFile() {
         super("locations", "locations");
     }
 
+    /**
+     * Add default value
+      */
     @Override
     public void addDefaults() {
         final File file = getFile(folder, fileName);
@@ -37,6 +43,10 @@ public class LocationsFile extends CustomFile {
         }
     }
 
+    /**
+     * Get config of file
+     * @return YamlConfiguration
+     */
     @Override
     public YamlConfiguration getConfig() {
         final File file = getFile(folder, fileName);
@@ -44,11 +54,20 @@ public class LocationsFile extends CustomFile {
 
     }
 
+    /**
+     * Get the size of spawns
+     * @return Integer
+     */
     public int getNumberOfPosition() {
         YamlConfiguration config = getConfig();
         return config.getConfigurationSection("locations").getKeys(false).size() - 1;
     }
 
+    /**
+     * get the location at index
+     * @param number Integer
+     * @return String
+     */
     public String getLocationString(int number) {
         YamlConfiguration config = getConfig();
         return config.getString("locations." + number);
@@ -69,6 +88,10 @@ public class LocationsFile extends CustomFile {
         }
     }
 
+    /**
+     * Add a new location in locations
+     * @param player Player
+     */
     public void addLocation(Player player) {
         YamlConfiguration config = getConfig();
         String location = LocationsUtils.locationParse(player.getLocation());
@@ -81,6 +104,14 @@ public class LocationsFile extends CustomFile {
 
     }
 
+    /**
+     * Remove the last location
+     * @param player Player
+     */
+
+    /*
+    TODO Change with index of location
+     */
     public void removeLocation(Player player) {
         YamlConfiguration config = getConfig();
         int number = getNumberOfPosition();
@@ -95,6 +126,10 @@ public class LocationsFile extends CustomFile {
             player.sendMessage(MessageUtils.getMessage("locations.no_location"));
     }
 
+    /**
+     * Clear all location
+     * @param player Player
+     */
     public void clearLocations(Player player) {
         YamlConfiguration config = getConfig();
         if (getNumberOfPosition() == 0) {
@@ -112,6 +147,10 @@ public class LocationsFile extends CustomFile {
             player.sendMessage(ChatColor.RED + "An error was occured during clearing all locations");
     }
 
+    /**
+     * Set the new spawn point
+     * @param player Player
+     */
     public void setSpawn(Player player) {
         YamlConfiguration config = getConfig();
         String location = LocationsUtils.locationParse(player.getLocation());
@@ -120,10 +159,12 @@ public class LocationsFile extends CustomFile {
         player.sendMessage(MessageUtils.getMessage("locations.setspawn", "%location%", location));
     }
 
+    /**
+     * Reload the configuration
+     * @return Boolean
+     */
     @Override
     public boolean reloadConfig() {
-        Oneshot.getInstance().reloadConfig();
-        YamlConfiguration config = getConfig();
-        return saveConfig(config);
+        return saveConfig(getConfig());
     }
 }
