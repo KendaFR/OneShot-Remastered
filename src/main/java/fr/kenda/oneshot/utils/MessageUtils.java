@@ -9,6 +9,7 @@ public class MessageUtils {
 
     /**
      * Get the prefix in config.yml
+     *
      * @return String
      */
     public static String getPrefix() {
@@ -17,6 +18,7 @@ public class MessageUtils {
 
     /**
      * Get the message in path
+     *
      * @param path String
      * @return String
      */
@@ -26,6 +28,7 @@ public class MessageUtils {
 
     /**
      * Get the message in config.yml with path and replace the placeholder
+     *
      * @param path String
      * @param args String...
      * @return String
@@ -43,6 +46,7 @@ public class MessageUtils {
 
     /**
      * Get the permission in config.yml
+     *
      * @param path String
      * @return String
      */

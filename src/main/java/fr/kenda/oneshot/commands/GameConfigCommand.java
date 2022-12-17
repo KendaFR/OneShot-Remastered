@@ -14,7 +14,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 
-
 public class GameConfigCommand implements CommandExecutor {
 
     private static final String PREFIX = MessageUtils.getPrefix();
@@ -33,7 +32,7 @@ public class GameConfigCommand implements CommandExecutor {
             return false;
         }
         //Check if args is 0 or more than 2, send help
-        if (args.length == 0 || args.length > 2) {
+        if (args.length < 2 || args.length > 3) {
             getHelp(player);
             return false;
         }
@@ -42,11 +41,11 @@ public class GameConfigCommand implements CommandExecutor {
         String category = args[0];
 
         //check if args is reload
-        if(category.equalsIgnoreCase("reload")){
+        if (category.equalsIgnoreCase("reload")) {
             player.sendMessage(PREFIX + ChatColor.GREEN + "Reloading all files...");
 
             //get all customFile and reload configuration
-            for(CustomFile file : FileManager.getFiles()){
+            for (CustomFile file : FileManager.getFiles()) {
                 player.sendMessage(PREFIX + ChatColor.GREEN + "Reloading " + file.getName() + " file");
                 file.reloadConfig();
             }
@@ -55,10 +54,6 @@ public class GameConfigCommand implements CommandExecutor {
         }
         //check if /gameconfig locations
         if (category.equals("locations")) {
-            if (args.length != 2) {
-                getHelp(player);
-                return true;
-            }
             //get the sub category
             String subCommand = args[1];
 
@@ -69,6 +64,7 @@ public class GameConfigCommand implements CommandExecutor {
             LocationsFile file = (LocationsFile) FileManager.getFile("locations");
 
             switch (subCommand) {
+                //TODO  A modifier
                 //check if "see" to see all locations
                 case "see" -> config.getConfigurationSection("locations").getKeys(false)
                         .forEach(key -> {
@@ -80,14 +76,22 @@ public class GameConfigCommand implements CommandExecutor {
                             String pitch = argsLoc[4];
                             String yaw = argsLoc[5];
                             player.sendMessage(MessageUtils.getMessage("locations.see",
-                                    "%number%", key, "%world%", world, "%locX%", x," %locY%", y, "%locZ%", z, "%pitch%", pitch, "%yaw%", yaw));
+                                    "%number%", key, "%world%", world, "%locX%", x, " %locY%", y, "%locZ%", z, "%pitch%", pitch, "%yaw%", yaw));
                         });
                 //clear all locations in locations.yml (except for spawn)
                 case "clear" -> file.clearLocations(player);
                 //Remove the last location in locations.yml
                 case "remove" -> {
-                    file.removeLocation(player);
-                    Oneshot.getInstance().reloadConfig();
+                    if (args.length == 3) {
+                        try {
+                            int index = Integer.parseInt(args[2]);
+                            file.removeLocation(player, index);
+                        } catch (NumberFormatException ex) {
+                            player.sendMessage(PREFIX + "Index is not an number");
+                            return false;
+                        }
+                    } else
+                        file.removeLocation(player, -1);
                 }
                 //Add the current location of player in locations.yml
                 case "add" -> file.addLocation(player);
@@ -102,6 +106,7 @@ public class GameConfigCommand implements CommandExecutor {
 
     /**
      * Get help message
+     *
      * @param player Player
      */
     private void getHelp(Player player) {

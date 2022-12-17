@@ -7,17 +7,19 @@ public interface IFile {
     /**
      * Add default value
      */
-    public void addDefaults();
+    void addDefaults();
 
     /**
      * Get the config file
+     *
      * @return YamlConfiguration
      */
-    public YamlConfiguration getConfig();
+    YamlConfiguration getConfig();
 
     /**
      * Reload the configuration
+     *
      * @return Boolean
      */
-    public boolean reloadConfig();
+    boolean reloadConfig();
 }

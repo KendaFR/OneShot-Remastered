@@ -13,8 +13,9 @@ public class FileManager implements IManager {
 
     /**
      * Add file in map with shortcut (easy to get the file custom)
+     *
      * @param shortcut String
-     * @param file CustomFile
+     * @param file     CustomFile
      */
     public static void addFile(String shortcut, CustomFile file) {
         files.put(shortcut, file);
@@ -22,6 +23,7 @@ public class FileManager implements IManager {
 
     /**
      * Get config file form file name
+     *
      * @param file String
      * @return YamlConfiguration
      */
@@ -31,6 +33,7 @@ public class FileManager implements IManager {
 
     /**
      * Get all files
+     *
      * @return ArrayList<CustomFile>
      */
     public static ArrayList<CustomFile> getFiles() {
@@ -39,6 +42,7 @@ public class FileManager implements IManager {
 
     /**
      * Get the file
+     *
      * @param file String
      * @return CustomFile
      */

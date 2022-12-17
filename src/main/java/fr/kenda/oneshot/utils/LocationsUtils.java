@@ -8,6 +8,7 @@ public class LocationsUtils {
 
     /**
      * Get the string format of location
+     *
      * @param location Location
      * @return Stirng
      */
@@ -19,15 +20,17 @@ public class LocationsUtils {
 
     /**
      * Get the arguments of location string
+     *
      * @param locationParsed String
      * @return String[]
      */
-    public static String[] getArgumentsLocation(String locationParsed){
+    public static String[] getArgumentsLocation(String locationParsed) {
         return locationParsed.trim().split(",");
     }
 
     /**
      * Get the Location from String
+     *
      * @param string String
      * @return Location
      */

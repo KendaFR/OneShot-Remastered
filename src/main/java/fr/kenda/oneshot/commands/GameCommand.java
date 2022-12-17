@@ -55,6 +55,7 @@ public class GameCommand implements CommandExecutor {
 
     /**
      * Get the help message
+     *
      * @param sender CommandSender
      */
     private void getHelp(CommandSender sender) {

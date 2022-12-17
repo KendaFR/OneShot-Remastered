@@ -6,6 +6,7 @@ public class GameStatusManager {
 
     /**
      * Check is status is same with parameter
+     *
      * @param status GameStatuc
      * @return Boolean
      */
@@ -15,6 +16,7 @@ public class GameStatusManager {
 
     /**
      * Get the status name
+     *
      * @return String
      */
     public static String getStatus() {
@@ -23,6 +25,7 @@ public class GameStatusManager {
 
     /**
      * Set the new status
+     *
      * @param status GameStatus
      */
     public static void setStatus(GameStatus status) {

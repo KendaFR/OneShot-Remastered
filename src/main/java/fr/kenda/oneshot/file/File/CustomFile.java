@@ -16,7 +16,8 @@ public class CustomFile implements IFile {
 
     /**
      * Custom File constructor
-     * @param folder String (folder name or null)
+     *
+     * @param folder   String (folder name or null)
      * @param fileName the file name
      */
     public CustomFile(String folder, String fileName) {
@@ -52,16 +53,9 @@ public class CustomFile implements IFile {
     }
 
     /**
-     * Get name of file
-     * @return String
-     */
-    public String getName() {
-        return fileName;
-    }
-
-    /**
      * Get the file with folder and name
-     * @param folder String
+     *
+     * @param folder   String
      * @param fileName String
      * @return File
      */
@@ -70,6 +64,15 @@ public class CustomFile implements IFile {
             return new File(dataFolder + "/" + folder, fileName + ".yml");
         else
             return new File(dataFolder, fileName + ".yml");
+    }
+
+    /**
+     * Get name of file
+     *
+     * @return String
+     */
+    public String getName() {
+        return fileName;
     }
 
     /**
@@ -82,6 +85,7 @@ public class CustomFile implements IFile {
 
     /**
      * Get the config of file
+     *
      * @return YamlConfiguration
      */
     @Override
@@ -91,6 +95,7 @@ public class CustomFile implements IFile {
 
     /**
      * Reload the configuration of file
+     *
      * @return Boolean
      */
     @Override
