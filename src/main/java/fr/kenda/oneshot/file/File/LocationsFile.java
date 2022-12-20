@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LocationsFile extends CustomFile {
@@ -23,6 +24,7 @@ public class LocationsFile extends CustomFile {
      */
     public LocationsFile() {
         super("locations", "locations");
+        addDefaults();
     }
 
     /**
@@ -36,11 +38,7 @@ public class LocationsFile extends CustomFile {
         config.addDefault("locations.spawn", "world,0,0,0,0,0");
 
         config.addDefault("locations.list", List.of("world,0,0,0,0,0"));
-        try {
-            config.save(file);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        saveConfig(config);
     }
 
     /**
@@ -62,7 +60,7 @@ public class LocationsFile extends CustomFile {
      */
     public int getNumberOfPosition() {
         YamlConfiguration config = getConfig();
-        return config.getConfigurationSection("locations").getKeys(false).size() - 1;
+        return config.getStringList("locations.list").size();
     }
 
     /**
@@ -84,10 +82,6 @@ public class LocationsFile extends CustomFile {
     public Location getLocation(int index) {
         ArrayList<String> locations = getLocations();
         return LocationsUtils.getParsedLocation(locations.get(index));
-    }
-
-    private void setList(ArrayList<String> list) {
-        getConfig().set("locations.list", list);
     }
 
     /**
@@ -115,14 +109,14 @@ public class LocationsFile extends CustomFile {
         //TODO A corriger car sa marche pas
         YamlConfiguration config = getConfig();
         String location = LocationsUtils.locationParse(player.getLocation());
+        String[] locationsArgs = LocationsUtils.getArgumentsLocation(location);
         ArrayList<String> locations = getLocations();
         locations.add(location);
         config.set("locations.list", locations);
         if (saveConfig(config))
-            player.sendMessage(MessageUtils.getMessage("locations.add", "%location%", location));
+            player.sendMessage(MessageUtils.getMessage("locations.add", "%locX%", locationsArgs[1], "%locY%", locationsArgs[2], "%locZ%", locationsArgs[3]));
         else
             player.sendMessage(ChatColor.RED + "An error was occured during add location in config file");
-
     }
 
     /**
@@ -147,16 +141,17 @@ public class LocationsFile extends CustomFile {
         if (index == -1) {
             locationStr = locations.get(size - 1);
             locations.remove(size - 1);
-            setList(locations);
         } else {
-            if (index < 0 || index > size) {
-                player.sendMessage(ChatColor.RED + "Index out of bound. Please retry between 0 and " + size);
+            if (index < 1 || index > size) {
+                player.sendMessage(ChatColor.RED + "Index out of bound. Please retry between 1 and " + size);
                 return;
             }
-            locationStr = locations.get(index);
-            locations.remove(index);
+            number = index - 1;
+            locationStr = locations.get(number);
+            locations.remove(number);
 
         }
+        config.set("locations.list", locations);
         if (saveConfig(config))
             player.sendMessage(MessageUtils.getMessage("locations.remove", "%number%", String.valueOf(number), "%location%", locationStr));
         else
@@ -175,11 +170,7 @@ public class LocationsFile extends CustomFile {
             player.sendMessage(MessageUtils.getMessage("locations.no_location"));
             return;
         }
-        config.getConfigurationSection("locations").getKeys(false)
-                .forEach(key -> {
-                    if (!key.equalsIgnoreCase("spawn"))
-                        config.set("locations." + key, null);
-                });
+        config.set("locations.list", null);
         if (saveConfig(config))
             player.sendMessage(MessageUtils.getMessage("locations.clear"));
         else
@@ -195,8 +186,9 @@ public class LocationsFile extends CustomFile {
         YamlConfiguration config = getConfig();
         String location = LocationsUtils.locationParse(player.getLocation());
         config.set("locations.spawn", location);
+        String[] args = LocationsUtils.getArgumentsLocation(location);
         saveConfig(config);
-        player.sendMessage(MessageUtils.getMessage("locations.setspawn", "%location%", location));
+        player.sendMessage(MessageUtils.getMessage("locations.setspawn", "%locX%", args[1], "%locY%", args[2], "%locZ%", args[3]));
     }
 
     /**

@@ -9,3 +9,5 @@ commands:
     description: lol la commande
   gameconfig:
     description: Permet de gérer la config du plugin
+  gameconfigteleport:
+    description: Permet de se teleporter à la position de la loc

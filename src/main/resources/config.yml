@@ -8,8 +8,8 @@ messages:
 
   locations:
     clear: "&aAll locations has been cleared."
-    add: "&cLocation at '%location%' has been added"
-    setspawn: "&cLocation spawn is not at '%location%'"
+    add: "&cLocation at X: %locX%, Y: %locY%, Z: %locZ% has been added"
+    setspawn: "&cLocation spawn is at X: %locX%, Y: %locY%, Z: %locZ%"
     remove: "&cLast location has been removed. (Location N°%number%: '%location%')"
     see: "&7Location &b%number%: &o&fWorld: %world%, X: %locX%, Y: %locY%, Z: %locZ%, Yaw: %yaw%, Pitch: %pitch%"
     no_location: "&cNo location found in file config"

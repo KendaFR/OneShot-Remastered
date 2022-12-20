@@ -56,8 +56,6 @@ public class FileManager implements IManager {
     @Override
     public void register() {
         new LocationsFile();
-        for (CustomFile file : files.values()) {
-            file.addDefaults();
-        }
+
     }
 }
