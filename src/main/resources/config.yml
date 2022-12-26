@@ -1,21 +1,139 @@
+#The prefix display on all the plugin
 prefix: "&c[1v1Oneshot]"
 
+#The next section allows you to configure the different messages of the game
 messages:
+  #Message display if the game is already started
   already_start: "&cGame already started"
+  #Message displayed if the game is already stopped
   already_stopped: "&cGame already stopped"
+  #Message show if game status is change
   status_change: "&aThe game status has change on %status%"
+  #Message displayed if player does not have permission
   no_permissions: "&cYou don't have permission to execute this command"
+  #Message send if player is not enough
+  not_enough_player: "&cInsuffisant players to start (Need %minplayer% players)"
+  #Message when a new arrow given
+  received_arrow: "&aYou received a new arrow"
+  #Message if the player already has too many arrows
+  already_max_arrow: "&cYou have already reached the maximum number of arrows"
+  #Message send if player try to attack with a hand
+  cant_kill_with_hand: "&cYou can't kill him with your hand. (Try to be stronger :) )"
+  #Message to send at victim
+  killed_by: "&aYou have been killed by %player%"
+  #Message when player joins the game
+  join: "&7[+] &b%player% has joined the game &c(%online%/%maxplayers%)"
+  title:
+    start:
+      #title display during countdown (put %seconds% if you want text in one line)
+      title: "&7Game start"
+      #subtitle display during countdown (put "" if you don't want the subtitle)
+      subtitle: "&7in %time%"
+      #title when game start
+      title_after_timer: "&aGood game !"
+      subtitle_after_timer: "&aEnjoy"
+    respawn:
+      #Title sended when player is killed
+      title: "&7Respawn in"
+      subtitle: "%seconds%"
+      title_back_area: "&aBack to area !"
+      subtitle_back_area: "&aTry not die"
 
   locations:
+    #Message show when player is going to empty the list of locations
     clear: "&aAll locations has been cleared."
+    #Message displayed when the player is going to create a new spawn point
     add: "&cLocation at X: %locX%, Y: %locY%, Z: %locZ% has been added"
+    #Message displayed when the player is going to change the general spawn point
     setspawn: "&cLocation spawn is at X: %locX%, Y: %locY%, Z: %locZ%"
+    #Message displayed when the player is going to remove a spawn point
     remove: "&cLast location has been removed. (Location N°%number%: '%location%')"
+    #Message displayed at each spawn point
     see: "&7Location &b%number%: &o&fWorld: %world%, X: %locX%, Y: %locY%, Z: %locZ%, Yaw: %yaw%, Pitch: %pitch%"
+    #Message displayed if the configuration has no spawn points
     no_location: "&cNo location found in file config"
 
+  #Scoreboard message at different status of game
+  board:
+    title: "%prefix%"
+    waiting_players:
+      - "&7&nGlobal statistics:"
+      - "&c&oWaiting player..."
+    before_start:
+      - "&7&nGlobal statistics:"
+      - "                     &6%player1%"
+      - "&bKills: &f%kills_player1%           &bDeaths: &f%death_player1%"
+      - "&m==========&r VS &m=========="
+      - "                     &6%player2%"
+      - "&bKills: &f%kills_player2%           &bDeaths: &f%death_player2%"
+    game:
+      - "&7&nGame statistic:"
+      - "&6(Objective: %killstreak% kills of killstreaks)"
+      - "&c"
+      - "                     &6%player1%"
+      - "&bKillstreak: &f%kills_player1%"
+      - "&m==========&r VS &m=========="
+      - "                     &6%player2%"
+      - "&bKillstreak: &f%kills_player2%"
+
+#The following section allows you to configure the permissions to have to use certain game commands.
+#WARNING ! Never give these permissions to random players!
 permissions:
   game:
+    #Permission to use /game
     use: "game.admin.use"
   gameconfig:
+    #Permission to use /gameconfig command and /gameconfig teleport
     use: "gameconfig.admin.use"
+
+
+#The next section will allow you to configure some game settings,
+#including the minimum number of players (if it's ffa or simple duel)
+settings:
+  #The minimum number of players to start the game
+  minplayers: 2
+  #objective of killstreaks
+  killstreak_win: 5
+  #Timer before given a new arrow
+  timer_given_arrow: 60
+  #Timer before start and teleport players
+  timer_before_start: 10
+  #Timer to respawn after death
+  respawn: 5
+  #Sound played when player is teleported (You can find sound here https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html)
+  sound: "ITEM_SHIELD_BLOCK"
+  #Sound when player kill a player
+  killed_sound: "ENTITY_PLAYER_LEVELUP"
+  items:
+    #Material of sword (not affect the gameplay)
+    sword_material: "IRON_SWORD"
+    #The Name of sword
+    sword_name: "&cIron Sword"
+    #Material of bow (not affect the gameplay)
+    bow_material: "BOW"
+    #The Name of bow
+    bow_name: "&cBow"
+    #Material of arrow (not affect the gameplay)
+    arrow_material: "ARROW"
+    #The Name of arrow
+    arrow_name: "&cArrow"
+    #Set max arrow available
+    max_arrow: 5
+
+
+#Statistics of different players
+statistics:
+  #enable this if you want save the stats in mysql database
+  #MySQL for mysql
+  #SQLite for sqlite
+  #None if you don't save the stats
+  database_system: "MySQL"
+  host: "localhost"
+  user: "localhost"
+  password: "localhost"
+  port: 3306
+  database: "localhost"
+  #Only if mysql is set to false, then the name below will be taken to save your stats locally.
+  #Locate in the same folder
+  name_of_file: "players_statistics"
+

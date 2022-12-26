@@ -18,7 +18,7 @@ public class GameCommand implements CommandExecutor {
 
         //Check if the sender has a specific permission the use
         if (!sender.hasPermission(MessageUtils.getPermission("game.use"))) {
-            sender.sendMessage(MessageUtils.getMessage("no_permissions"));
+            sender.sendMessage(MessageUtils.getMessage("no_permissions", true));
             return false;
         }
         //Send help mesasge if command has no args
@@ -32,10 +32,10 @@ public class GameCommand implements CommandExecutor {
              */
             case "start" -> {
                 if (!GameStatusManager.isStatus(GameStatus.WAITING))
-                    sender.sendMessage(MessageUtils.getMessage("already_started"));
+                    sender.sendMessage(MessageUtils.getMessage("already_started", true));
                 else {
                     GameStatusManager.setStatus(GameStatus.STARTING);
-                    sender.sendMessage(MessageUtils.getMessage("status_change", "%status%", GameStatusManager.getStatus()));
+                    sender.sendMessage(MessageUtils.getMessage("status_change", true, "%status%", GameStatusManager.getStatus()));
                 }
             }
              /*
@@ -43,10 +43,10 @@ public class GameCommand implements CommandExecutor {
              */
             case "stop" -> {
                 if (!GameStatusManager.isStatus(GameStatus.GAME)) {
-                    sender.sendMessage(MessageUtils.getMessage("already_stopped"));
+                    sender.sendMessage(MessageUtils.getMessage("already_stopped", true));
                 } else {
                     GameStatusManager.setStatus(GameStatus.FINISH);
-                    sender.sendMessage(MessageUtils.getMessage("status_change"), "%status%", GameStatusManager.getStatus());
+                    sender.sendMessage(MessageUtils.getMessage("status_change", true, "%status%", GameStatusManager.getStatus()));
                 }
             }
         }

@@ -1,13 +1,15 @@
 package fr.kenda.oneshot.managers;
 
-import fr.kenda.oneshot.file.File.CustomFile;
-import fr.kenda.oneshot.file.File.LocationsFile;
-import org.bukkit.configuration.file.YamlConfiguration;
+import fr.kenda.oneshot.file.file.CustomFile;
+import fr.kenda.oneshot.file.file.LocationsFile;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class FileManager implements IManager {
+
 
     private static final HashMap<String, CustomFile> files = new HashMap<>();
 
@@ -19,16 +21,6 @@ public class FileManager implements IManager {
      */
     public static void addFile(String shortcut, CustomFile file) {
         files.put(shortcut, file);
-    }
-
-    /**
-     * Get config file form file name
-     *
-     * @param file String
-     * @return YamlConfiguration
-     */
-    public static YamlConfiguration getConfig(String file) {
-        return files.get(file).getConfig();
     }
 
     /**
@@ -47,7 +39,12 @@ public class FileManager implements IManager {
      * @return CustomFile
      */
     public static CustomFile getFile(String file) {
-        return files.get(file);
+        CustomFile cf = files.get(file);
+        if (cf != null)
+            return cf;
+        else
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "An error was occured. " + file + " was not found");
+        return null;
     }
 
     /**
@@ -55,7 +52,8 @@ public class FileManager implements IManager {
      */
     @Override
     public void register() {
-        new LocationsFile();
-
+        new LocationsFile("locations", "locations");
     }
+
+
 }

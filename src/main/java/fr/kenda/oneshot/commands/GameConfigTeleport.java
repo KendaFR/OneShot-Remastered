@@ -1,19 +1,14 @@
 package fr.kenda.oneshot.commands;
 
-import fr.kenda.oneshot.Oneshot;
-import fr.kenda.oneshot.file.File.LocationsFile;
+import fr.kenda.oneshot.file.file.LocationsFile;
 import fr.kenda.oneshot.managers.FileManager;
-import fr.kenda.oneshot.utils.LocationsUtils;
 import fr.kenda.oneshot.utils.MessageUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
 
 public class GameConfigTeleport implements CommandExecutor {
     private final String prefix = MessageUtils.getPrefix();
@@ -26,11 +21,15 @@ public class GameConfigTeleport implements CommandExecutor {
         }
         //check if sender has specific permission
         if (!player.hasPermission(MessageUtils.getPermission("gameconfig.use"))) {
-            player.sendMessage(MessageUtils.getMessage("no_permissions"));
+            player.sendMessage(MessageUtils.getMessage("no_permissions", true));
             return false;
         }
+
         LocationsFile lm = (LocationsFile) FileManager.getFile("locations");
+        //get the argument of command
         int number = Integer.parseInt(args[0]) - 1;
+
+        //get the location at number in config
         Location loc = lm.getLocation(number);
         player.teleport(loc);
         return false;

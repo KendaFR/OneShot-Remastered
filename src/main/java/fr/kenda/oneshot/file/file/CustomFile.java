@@ -1,4 +1,4 @@
-package fr.kenda.oneshot.file.File;
+package fr.kenda.oneshot.file.file;
 
 import fr.kenda.oneshot.Oneshot;
 import fr.kenda.oneshot.file.IFile;
@@ -12,7 +12,8 @@ public class CustomFile implements IFile {
 
     private static final Oneshot instance = Oneshot.getInstance();
     private static final File dataFolder = instance.getDataFolder();
-    private final String fileName;
+    protected final String fileName;
+    protected final String folder;
 
     /**
      * Custom File constructor
@@ -21,7 +22,9 @@ public class CustomFile implements IFile {
      * @param fileName the file name
      */
     public CustomFile(String folder, String fileName) {
+        this.folder = folder;
         this.fileName = fileName;
+
         final String fileExtension = fileName + ".yml";
         File file;
         if (!dataFolder.exists()) {

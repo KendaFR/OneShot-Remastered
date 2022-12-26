@@ -1,6 +1,5 @@
-package fr.kenda.oneshot.file.File;
+package fr.kenda.oneshot.file.file;
 
-import fr.kenda.oneshot.utils.EFiles;
 import fr.kenda.oneshot.utils.LocationsUtils;
 import fr.kenda.oneshot.utils.MessageUtils;
 import org.bukkit.ChatColor;
@@ -11,19 +10,15 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class LocationsFile extends CustomFile {
 
-    private final String folder = EFiles.LOCATIONS.getFolder();
-    private final String fileName = EFiles.LOCATIONS.getFileName();
-
     /**
      * Create locationsFile
      */
-    public LocationsFile() {
-        super("locations", "locations");
+    public LocationsFile(String folder, String fileName) {
+        super(folder, fileName);
         addDefaults();
     }
 
@@ -106,7 +101,6 @@ public class LocationsFile extends CustomFile {
      * @param player Player
      */
     public void addLocation(Player player) {
-        //TODO A corriger car sa marche pas
         YamlConfiguration config = getConfig();
         String location = LocationsUtils.locationParse(player.getLocation());
         String[] locationsArgs = LocationsUtils.getArgumentsLocation(location);
@@ -114,7 +108,7 @@ public class LocationsFile extends CustomFile {
         locations.add(location);
         config.set("locations.list", locations);
         if (saveConfig(config))
-            player.sendMessage(MessageUtils.getMessage("locations.add", "%locX%", locationsArgs[1], "%locY%", locationsArgs[2], "%locZ%", locationsArgs[3]));
+            player.sendMessage(MessageUtils.getMessage("locations.add", true, "%locX%", locationsArgs[1], "%locY%", locationsArgs[2], "%locZ%", locationsArgs[3]));
         else
             player.sendMessage(ChatColor.RED + "An error was occured during add location in config file");
     }
@@ -131,7 +125,7 @@ public class LocationsFile extends CustomFile {
         YamlConfiguration config = getConfig();
         int number = getNumberOfPosition();
         if (number == 0) {
-            player.sendMessage(MessageUtils.getMessage("locations.no_location"));
+            player.sendMessage(MessageUtils.getMessage("locations.no_location", true));
             return;
         }
         int size = locations.size();
@@ -153,7 +147,7 @@ public class LocationsFile extends CustomFile {
         }
         config.set("locations.list", locations);
         if (saveConfig(config))
-            player.sendMessage(MessageUtils.getMessage("locations.remove", "%number%", String.valueOf(number), "%location%", locationStr));
+            player.sendMessage(MessageUtils.getMessage("locations.remove", true, "%number%", String.valueOf(number), "%location%", locationStr));
         else
             player.sendMessage(ChatColor.RED + "An error was occured during removed location in config file");
 
@@ -167,12 +161,12 @@ public class LocationsFile extends CustomFile {
     public void clearLocations(Player player) {
         YamlConfiguration config = getConfig();
         if (getNumberOfPosition() == 0) {
-            player.sendMessage(MessageUtils.getMessage("locations.no_location"));
+            player.sendMessage(MessageUtils.getMessage("locations.no_location", true));
             return;
         }
         config.set("locations.list", null);
         if (saveConfig(config))
-            player.sendMessage(MessageUtils.getMessage("locations.clear"));
+            player.sendMessage(MessageUtils.getMessage("locations.clear", true));
         else
             player.sendMessage(ChatColor.RED + "An error was occured during clearing all locations");
     }
@@ -188,7 +182,7 @@ public class LocationsFile extends CustomFile {
         config.set("locations.spawn", location);
         String[] args = LocationsUtils.getArgumentsLocation(location);
         saveConfig(config);
-        player.sendMessage(MessageUtils.getMessage("locations.setspawn", "%locX%", args[1], "%locY%", args[2], "%locZ%", args[3]));
+        player.sendMessage(MessageUtils.getMessage("locations.setspawn", true, "%locX%", args[1], "%locY%", args[2], "%locZ%", args[3]));
     }
 
     /**

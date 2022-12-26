@@ -1,8 +1,7 @@
 package fr.kenda.oneshot.commands;
 
-import fr.kenda.oneshot.Oneshot;
-import fr.kenda.oneshot.file.File.CustomFile;
-import fr.kenda.oneshot.file.File.LocationsFile;
+import fr.kenda.oneshot.file.file.CustomFile;
+import fr.kenda.oneshot.file.file.LocationsFile;
 import fr.kenda.oneshot.managers.FileManager;
 import fr.kenda.oneshot.utils.LocationsUtils;
 import fr.kenda.oneshot.utils.MessageUtils;
@@ -10,14 +9,15 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 
 public class GameConfigCommand implements CommandExecutor {
@@ -34,7 +34,7 @@ public class GameConfigCommand implements CommandExecutor {
         }
         //check if sender has specific permission
         if (!player.hasPermission(MessageUtils.getPermission("gameconfig.use"))) {
-            player.sendMessage(MessageUtils.getMessage("no_permissions"));
+            player.sendMessage(MessageUtils.getMessage("no_permissions", true));
             return false;
         }
         //Check if args is 0 or more than 2, send help
@@ -63,27 +63,28 @@ public class GameConfigCommand implements CommandExecutor {
             //get the sub category
             String subCommand = args[1];
 
-            //get config of locations.yml
-            YamlConfiguration config = FileManager.getConfig("locations");
-
             //get file of locations.yml
             LocationsFile file = (LocationsFile) FileManager.getFile("locations");
+            if (file == null) {
+                Bukkit.getLogger().log(Level.WARNING, "An error was occured during get file locations. Please reload the config");
+                return false;
+            }
 
             switch (subCommand) {
-               //check if "see" to see all locations
+                //check if "see" to see all locations
                 case "see" -> {
                     ArrayList<String> list = file.getLocations();
                     int size = list.size();
-                    for(int i = 0; i < size; i++) {
+                    for (int i = 0; i < size; i++) {
                         String[] argsLoc = LocationsUtils.getArgumentsLocation(LocationsUtils.locationParse(player.getLocation()));
                         TextComponent mainComponent = new TextComponent(MessageUtils.getMessage("locations.see",
-                                "%number%", String.valueOf( i+ 1), "%world%", argsLoc[0], "%locX%", argsLoc[1], " %locY%", argsLoc[2], "%locZ%", argsLoc[3], "%pitch%", argsLoc[4], "%yaw%", argsLoc[5]));
-                       mainComponent.setHoverEvent(new HoverEvent( HoverEvent.Action.SHOW_TEXT, new ComponentBuilder( ChatColor.GREEN + "Teleport to location " + (i+1)).create()));
-                        mainComponent.setClickEvent( new ClickEvent( ClickEvent.Action.RUN_COMMAND, "/gameconfigteleport " + (i + 1)));
+                                true, "%number%", String.valueOf(i + 1), "%world%", argsLoc[0], "%locX%", argsLoc[1], " %locY%", argsLoc[2], "%locZ%", argsLoc[3], "%pitch%", argsLoc[4], "%yaw%", argsLoc[5]));
+                        mainComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.GREEN + "Teleport to location " + (i + 1)).create()));
+                        mainComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/gameconfigteleport " + (i + 1)));
                         player.spigot().sendMessage(mainComponent);
 
                     }
-                //TODO faire les particules
+                    //TODO faire les particules
                 }
 
                 //clear all locations in locations.yml (except for spawn)

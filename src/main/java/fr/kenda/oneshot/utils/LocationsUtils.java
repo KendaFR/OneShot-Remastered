@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
+@SuppressWarnings({"all"})
 public class LocationsUtils {
 
     /**
@@ -13,9 +14,13 @@ public class LocationsUtils {
      * @return Stirng
      */
     public static String locationParse(final Location location) {
-        return location.getWorld().getName() + "," +
-                (Math.round(location.getX()) + 0.5) + "," + Math.round(location.getY()) + "," + (Math.round(location.getZ()) + 0.5) + "," +
-                Math.round(location.getYaw()) + "," + Math.round(location.getPitch());
+        double x = ((int) Math.floor(location.getX())) + 0.5;
+        double y = (int) Math.floor(location.getY());
+        double z = ((int) Math.floor(location.getZ())) + 0.5;
+        double yaw = (int) Math.floor(location.getYaw());
+        double pitch = (int) Math.floor(location.getPitch());
+
+        return location.getWorld().getName() + "," + x + "," + y + "," + z + "," + yaw + "," + pitch;
     }
 
     /**
@@ -35,6 +40,9 @@ public class LocationsUtils {
      * @return Location
      */
     public static Location getParsedLocation(final String string) {
+        if (string == null) {
+            return new Location(Bukkit.getWorld("world"), 0, 0, 0);
+        }
         final String[] args = string.trim().split(",");
         final World world = Bukkit.getWorld(args[0]);
         final double x = Double.parseDouble(args[1]);
